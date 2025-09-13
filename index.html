@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Sanction Screening Workflow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm and Earthy (Soft Off-White, Muted Grays, and Vibrant Orange) -->
+    <!-- Application Structure Plan: The application uses a tab-based navigation to separate the three distinct workflows (Real-time, Scheduled, Ad-hoc), preventing user confusion. This is more intuitive than a single, complex diagram. Within each tab, the workflow is visualized as an interactive flowchart. Users can click on any component or step to highlight it and view a detailed description below. This interactive approach encourages exploration and improves comprehension of the process flow compared to a static document. -->
+    <!-- Visualization & Content Choices: Report Info: The three service workflows. Goal: Organize and explain a complex process. Viz/Presentation Method: Interactive flowcharts built with styled HTML divs and CSS. This method is chosen over canvas libraries as it provides better control for non-data-chart diagrams and simplifies interactivity. Interaction: Tab clicks switch between workflows. Step clicks highlight the element and update a detailed description panel. Justification: This design directly translates the procedural text from the report into a visual, engaging, and easy-to-navigate experience. Library/Method: Vanilla JS and Tailwind CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f4f2;
+            background-attachment: fixed;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .flow-arrow {
+            font-size: 2rem;
+            color: #9ca3af;
+        }
+        .flow-step {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .flow-step.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #f97316;
+        }
+        .nav-btn.active {
+            background-color: #f97316;
+            color: white;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Interactive Sanction Screening Workflow</h1>
+            <p class="mt-2 text-lg text-gray-600">Click on a workflow tab, then click on any step to see details.</p>
+        </header>
+
+        <nav class="flex justify-center space-x-2 md:space-x-4 mb-4 bg-stone-50 p-2 rounded-xl shadow-sm max-w-lg mx-auto">
+            <button id="nav-realtime" class="nav-btn w-full md:w-auto text-sm md:text-base font-medium px-4 py-2 rounded-lg transition-colors duration-200">Real-time Screening</button>
+            <button id="nav-notifier" class="nav-btn w-full md:w-auto text-sm md:text-base font-medium px-4 py-2 rounded-lg transition-colors duration-200">Scheduled Alerts</button>
+            <button id="nav-adhoc" class="nav-btn w-full md:w-auto text-sm md:text-base font-medium px-4 py-2 rounded-lg transition-colors duration-200">On-Demand Screening</button>
+        </nav>
+        
+        <main id="workflows-container" class="min-h-[350px]">
+            <section id="workflow-realtime" class="workflow-content hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">1. Sanction Services (Real-time Screening)</h2>
+                    <p class="mt-2 text-gray-600 max-w-3xl mx-auto">This workflow illustrates the primary service for handling synchronous screening requests directly from a client. The process begins with a client request and ends with a response after checking against the watchlist and recording the result.</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-2">
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="realtime" data-step="0">
+                        <span class="text-2xl">👤</span>
+                        <p class="font-semibold mt-2">Client</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="realtime" data-step="1">
+                         <span class="text-2xl">⚙️</span>
+                        <p class="font-semibold mt-2">Sanction Services</p>
+                        <p class="text-sm text-gray-500">(Preprocessing)</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="realtime" data-step="2">
+                        <span class="text-2xl">🔍</span>
+                        <p class="font-semibold mt-2">Solr Engine</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="realtime" data-step="3">
+                        <span class="text-2xl">⚙️</span>
+                        <p class="font-semibold mt-2">Sanction Services</p>
+                        <p class="text-sm text-gray-500">(Post-processing)</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="realtime" data-step="4">
+                        <span class="text-2xl">🗄️</span>
+                        <p class="font-semibold mt-2">Database</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="realtime" data-step="5">
+                         <span class="text-2xl">👤</span>
+                        <p class="font-semibold mt-2">Client</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="workflow-notifier" class="workflow-content hidden">
+                 <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">2. Notifier Service (Scheduled Alerts)</h2>
+                    <p class="mt-2 text-gray-600 max-w-3xl mx-auto">This section shows the asynchronous background process. It acts as middleware, periodically checking for new screening results in the database and creating corresponding alerts in SAS Visual Investigator.</p>
+                </div>
+                 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-2">
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="notifier" data-step="0">
+                        <span class="text-2xl">⏱️</span>
+                        <p class="font-semibold mt-2">Notifier Service</p>
+                        <p class="text-sm text-gray-500">(Scheduled Job)</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="notifier" data-step="1">
+                        <span class="text-2xl">🗄️</span>
+                        <p class="font-semibold mt-2">Database</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="notifier" data-step="2">
+                        <span class="text-2xl">📝</span>
+                        <p class="font-semibold mt-2">Notifier Service</p>
+                        <p class="text-sm text-gray-500">(Constructs JSON)</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="notifier" data-step="3">
+                        <span class="text-2xl">📊</span>
+                        <p class="font-semibold mt-2">SAS Visual Inv.</p>
+                    </div>
+                    <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="notifier" data-step="4">
+                        <span class="text-2xl">🗄️</span>
+                        <p class="font-semibold mt-2">Database</p>
+                        <p class="text-sm text-gray-500">(Update Record)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="workflow-adhoc" class="workflow-content hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">3. Adhoc Service (On-Demand Screening)</h2>
+                    <p class="mt-2 text-gray-600 max-w-3xl mx-auto">This workflow is for on-demand screening requests that originate directly from SAS Visual Investigator. It allows users within the VI system to trigger a new screening and alert creation process for a single entity.</p>
+                </div>
+                 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-2">
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="adhoc" data-step="0">
+                        <span class="text-2xl">📊</span>
+                        <p class="font-semibold mt-2">SAS Visual Inv.</p>
+                    </div>
+                     <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="adhoc" data-step="1">
+                        <span class="text-2xl">⚙️</span>
+                        <p class="font-semibold mt-2">Adhoc Service</p>
+                        <p class="text-sm text-gray-500">(Constructs JSON)</p>
+                    </div>
+                     <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="adhoc" data-step="2">
+                        <span class="text-2xl">📊</span>
+                        <p class="font-semibold mt-2">SAS Visual Inv.</p>
+                         <p class="text-sm text-gray-500">(Create Alert)</p>
+                    </div>
+                     <div class="flow-arrow md:rotate-0 rotate-90">→</div>
+                    <div class="flow-step p-4 bg-white border-2 border-transparent rounded-lg shadow-md text-center" data-service="adhoc" data-step="3">
+                        <span class="text-2xl">🗄️</span>
+                        <p class="font-semibold mt-2">Database</p>
+                        <p class="text-sm text-gray-500">(Update Record)</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+		<div id="description-panel" class="bg-white p-6 rounded-xl shadow-md max-w-4xl mx-auto min-h-[120px] transition-all duration-300 mt-0">
+             <div id="description-content" class="text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Action Details</h3>
+                <p class="text-gray-600">Click on a step in the diagram above to see the details of the action performed.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const workflowsData = {
+                realtime: [
+                    { title: "Client --> Sanction Services", action: "Client sends a REST request with customer data." },
+                    { title: "Sanction Services (Process)", action: "Preprocessing of fields (e.g., removing special characters, stop words)." },
+                    { title: "Sanction Services --> Solr", action: "Sends normalized fields to Solr for screening." },
+                    { title: "Solr --> Sanction Services", action: "Returns search results from the watchlist for post-processing and matching." },
+                    { title: "Sanction Services --> Database", action: "Stores the final screening result." },
+                    { title: "Sanction Services --> Client", action: "Sends a REST response back to the client with match details." }
+                ],
+                notifier: [
+                    { title: "Notifier Service (Scheduled Job)", action: "A job runs every 1 minute to check for new records in the database." },
+                    { title: "Notifier Service --> Database", action: "Queries for new records that need to be processed." },
+                    { title: "Notifier Service (Process)", action: "Constructs a JSON alert request for each new record." },
+                    { title: "Notifier Service --> SAS Visual Investigator (VI)", action: "Sends the JSON request to create alerts." },
+                    { title: "SAS VI --> Notifier Service --> Database", action: "Receives a response with 'alertingEventID' and updates the records in the database to mark them as completed." }
+                ],
+                adhoc: [
+                    { title: "SAS Visual Investigator (VI) --> Adhoc Service", action: "Sends a REST request with single customer details." },
+                    { title: "Adhoc Service (Process)", action: "Constructs a JSON alert request for the customer details." },
+                    { title: "Adhoc Service --> SAS Visual Investigator (VI)", action: "Sends the JSON request back to VI to create an alert." },
+                    { title: "SAS VI --> Adhoc Service --> Database", action: "Receives a response with 'alertingEventID' and updates the record in the database to mark it as completed." }
+                ]
+            };
+
+            const navButtons = {
+                realtime: document.getElementById('nav-realtime'),
+                notifier: document.getElementById('nav-notifier'),
+                adhoc: document.getElementById('nav-adhoc')
+            };
+
+            const workflowContents = {
+                realtime: document.getElementById('workflow-realtime'),
+                notifier: document.getElementById('workflow-notifier'),
+                adhoc: document.getElementById('workflow-adhoc')
+            };
+            
+            const descriptionContent = document.getElementById('description-content');
+            let activeFlow = null;
+            let activeStepElement = null;
+
+            function updateDescription(service, stepIndex) {
+                const stepData = workflowsData[service][stepIndex];
+                descriptionContent.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${stepData.title}</h3>
+                    <p class="text-gray-600">${stepData.action}</p>
+                `;
+            }
+
+            function setActiveWorkflow(flowName) {
+                if (activeFlow === flowName) return;
+                activeFlow = flowName;
+                
+                Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
+                Object.values(workflowContents).forEach(content => content.classList.add('hidden'));
+
+                navButtons[flowName].classList.add('active');
+                workflowContents[flowName].classList.remove('hidden');
+
+                if (activeStepElement) {
+                    activeStepElement.classList.remove('active');
+                    activeStepElement = null;
+                }
+                
+                descriptionContent.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Action Details</h3>
+                    <p class="text-gray-600">Click on a step in the diagram above to see the details of the action performed.</p>
+                `;
+            }
+
+            Object.keys(navButtons).forEach(key => {
+                navButtons[key].addEventListener('click', () => setActiveWorkflow(key));
+            });
+            
+            document.querySelectorAll('.flow-step').forEach(step => {
+                step.addEventListener('click', () => {
+                    if (activeStepElement) {
+                        activeStepElement.classList.remove('active');
+                    }
+                    step.classList.add('active');
+                    activeStepElement = step;
+
+                    const service = step.dataset.service;
+                    const stepIndex = parseInt(step.dataset.step, 10);
+                    updateDescription(service, stepIndex);
+                });
+            });
+
+            setActiveWorkflow('realtime');
+        });
+    </script>
+</body>
+</html>
