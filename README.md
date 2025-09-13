@@ -12,4 +12,9 @@ Built with:
 ## 🚀 Demo
 👉 [Live Demo on GitHub Pages](https://yourusername.github.io/sanction-screening-workflow/)
 
-## 📂 Project Structure
+## 🛠️ Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/MustafaGamal000/sanction-screening-workflow.git
+   cd sanction-screening-workflow
+2. Open index.html in your browser.
